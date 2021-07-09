@@ -13,6 +13,7 @@ import {
   CloudFormation,
   AmplifyBackend,
   IAM,
+  Location,
 } from 'aws-sdk';
 import _ from 'lodash';
 
@@ -310,3 +311,18 @@ export const listAttachedRolePolicies = async (roleName: string, region: string)
   const service = new IAM({ region });
   return (await service.listAttachedRolePolicies({ RoleName: roleName }).promise()).AttachedPolicies;
 };
+
+//Amazon location service calls
+export const getMap = async (mapName: string, region: string) => {
+  const service = new Location({region});
+  return await service.describeMap({
+    MapName: mapName
+  }).promise()
+}
+
+export const getPlaceIndex = async (placeIndexName: string, region: string) => {
+  const service = new Location({region});
+  return await service.describePlaceIndex({
+    IndexName: placeIndexName
+  }).promise()
+}
